@@ -1,5 +1,9 @@
 require 'sinatra'
 
 get '/' do
-  "Goodbye, cruel world.  This will be the last time you see me."
+  @token + " is your API token."
+end
+
+post '/' do
+  "Hello new information.  It's been a long time.  But I think we can put our differences behind us.  For science."
 end
