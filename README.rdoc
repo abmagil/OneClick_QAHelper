@@ -1,0 +1,7 @@
+An extraordinarily simple app.
+
+This app is (originally) intended to help out devs and QA for the Cambridge Systematics OneClick projects.
+Bug Tracking/Project Management is occurring via Pivotal Tracker, where we are relying on labels to communicate between groups.
+
+In order to support this workflow, we will set PT to POST activity to this webapp (hosted on heroku or other solution), which 
+will parse the activity and update stories in PT accordingly, via the PT API.
