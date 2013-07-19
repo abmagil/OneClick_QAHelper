@@ -2,7 +2,7 @@ require 'sinatra'
 require 'keys'
 
 get '/' do
-  @token + " is your API token."
+  @api_token + " is your API token."
 end
 
 post '/' do
