@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'keys'
 
 get '/' do
   @token + " is your API token."
