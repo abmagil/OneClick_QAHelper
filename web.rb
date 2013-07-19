@@ -1,6 +1,4 @@
 require 'sinatra'
-#require 'nokogiri'
-require_relative 'keys'
 
 get '/' do
   ENV['APIKEY'] + " is your token."
