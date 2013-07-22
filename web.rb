@@ -6,6 +6,7 @@ get '/' do
 end
 
 post '/' do
+  #ENV['APIKEY'] + " is your token."
   response = ""
   @xml_doc = Nokogiri::XML(request.body)
   @event = @xml_doc.at_xpath("//event_type").text
