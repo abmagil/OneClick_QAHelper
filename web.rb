@@ -17,9 +17,11 @@ post '/' do
   story_ids = stories.xpath(".//id")
   story_ids.each do |story|
     response << "Story: " + story.text.to_s
+    url =  "http://www.pivotaltracker.com/services/v3/projects/#{@project}/stories/#{story}"
     response << "\n"
   end
   response << "Labels: " + @labels.to_s
   response
+  
 end
 
