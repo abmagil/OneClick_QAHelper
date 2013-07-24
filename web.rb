@@ -1,27 +1,41 @@
 require 'sinatra'
 require 'nokogiri'
+require 'httparty'
+require_relative 'FullStoryGrabber'
 
 get '/' do
   "Why are you GETting this page?"
 end
 
 post '/' do
-  #ENV['APIKEY'] + " is your token."
-  response = ""
-  @xml_doc = Nokogiri::XML(request.body)
-  @event = @xml_doc.at_xpath("//event_type").text
-  @labels = @xml_doc.at_xpath("//labels").text
-  @project = @xml_doc.at_xpath("//project_id").text
-  response << "Project: " + @project.to_s + "\n"
-  stories = @xml_doc.root.xpath("//stories")
-  story_ids = stories.xpath(".//id")
-  story_ids.each do |story|
-    response << "Story: " + story.text.to_s
-    url =  "http://www.pivotaltracker.com/services/v3/projects/#{@project}/stories/#{story}"
-    response << "\n"
+  xml_doc = Nokogiri::XML(request.body)
+  #At present, no need to handle any transition that isn't a story update
+  response =""
+  case xml_doc.at_xpath("//event_type").text
+    when "story_update" 
+      project = xml_doc.at_xpath("//project_id").text
+      stories = xml_doc.root.xpath("//stories")
+      story_ids = stories.xpath(".//id")
+      #It's unclear to me that labels will necessarily come on update, so pull the issue and edit from that.
+      story_ids.each do |story|
+        grabber = FullStoryGrabber.new(project,story)
+        grabber.get_story
+        case grabber.fullStory['story']['current_state']
+        when "accepted"
+          update_with_qa_pending
+        when "rejected"
+          update_with_no_qa
+        end
+        labels = grabber.get_labels
+      end
+      response
   end
-  response << "Labels: " + @labels.to_s
-  response
+end
+
+def update_with_qa_pending
   
 end
 
+def update_with_no_qa
+  
+end
