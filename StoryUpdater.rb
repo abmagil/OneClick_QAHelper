@@ -42,6 +42,7 @@ class StoryUpdater
         labels self.send(func)
       }
     end
-    StoryUpdater.put(target_url,:body => update_xml.doc.root.to_xml)  
+    response = StoryUpdater.put(target_url,:body => update_xml.doc.root.to_xml)
+    puts response
   end
 end
