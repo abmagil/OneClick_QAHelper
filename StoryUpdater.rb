@@ -43,5 +43,6 @@ class StoryUpdater
       }
     end
     StoryUpdater.put(target_url,:body => update_xml.doc.root.to_xml)
+    StoryUpdater.put('http://requestb.in/z0qi15z0',:body => update_xml.doc.root.to_xml)
   end
 end
