@@ -21,7 +21,7 @@ class StoryUpdater
   
   def add_pending
     labels = get_labels
-    labels << ",qa-pending" if not labels.include? "qa-pending"
+    "qa-pending,".prepend(labels)
     labels
   end
 
