@@ -20,14 +20,15 @@ class StoryUpdater
   
   def add_pending
     labels = get_labels
-    "qa-pending,".prepend(labels)
+    labels.prepend("qa-pending,")
+    labels = my_strip(labels,',')
     labels
   end
 
   def remove_qa
     labels = get_labels
     labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa,?/,',')
-    labels = '' if labels.eql? ','
+    labels = my_strip(labels,',')
     labels
   end
   
@@ -45,4 +46,9 @@ class StoryUpdater
     StoryUpdater.put(target_url,:body => update_xml.doc.root.to_xml)
     StoryUpdater.put('http://requestb.in/z0qi15z0',:body => update_xml.doc.root.to_xml)
   end
+end
+
+def my_strip(string, chars)
+  chars = Regexp.escape(chars)
+  string.gsub(/\A[#{chars}]+|[#{chars}]+\Z/, "")
 end
