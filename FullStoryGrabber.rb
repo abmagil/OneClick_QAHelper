@@ -2,7 +2,7 @@ class FullStoryGrabber
   include HTTParty
   
   attr_accessor :project, :story 
-  attr_reader :fullStory
+  attr_reader :full_story
   
   def initialize(project,story)
     self.project = project
@@ -15,10 +15,6 @@ class FullStoryGrabber
   end
   
   def get_story
-    @fullStory = FullStoryGrabber.get(get_url).parsed_response
-  end
-  
-  def get_labels
-    @fullStory['story']['labels'].split(',')
+    @full_story = FullStoryGrabber.get(get_url).parsed_response
   end
 end
