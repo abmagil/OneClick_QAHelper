@@ -21,7 +21,10 @@ post '/' do
         grabber = FullStoryGrabber.new(project,story)
         grabber.get_story
         full_story = grabber.full_story
-        next if xml_doc.at_xpath("//author").text.eql? "QA Helper" #Adding a comment will spawn another activity note.  Catch and move on if this is the case.
+        #Adding a comment will spawn another activity note.  Catch and move on if this is the case.
+        next if xml_doc.at_xpath("//author").text.eql? "QA Helper" 
+        #If the story is labeled with dev-test, don't update it on status transitions
+        next if full_story['story']['labels'].include 'dev-test'
         updater = StoryUpdater.new(full_story)
         updater.update
       end
