@@ -21,6 +21,7 @@ post '/' do
         grabber = FullStoryGrabber.new(project,story)
         grabber.get_story
         full_story = grabber.full_story
+        next if full_story['activity']['author'].eql? "QA Helper" #Adding a comment will spawn another activity note.  Catch and move on if this is the case.
         updater = StoryUpdater.new(full_story)
         updater.update
       end
