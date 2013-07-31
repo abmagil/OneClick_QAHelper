@@ -21,14 +21,12 @@ class StoryUpdater
   def add_pending
     labels = get_labels
     labels.prepend("qa-pending,")
-    labels = my_strip(labels,',')
     labels
   end
 
   def remove_qa
     labels = get_labels
     labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa,?/,',')
-    labels = my_strip(labels,',')
     labels
   end
   
@@ -40,11 +38,10 @@ class StoryUpdater
     target_url = BASEURL.gsub('PROJECT_ID',@full_story['story']['project_id'].to_s).gsub('STORY_ID',@full_story['story']['id'].to_s)
     update_xml = Nokogiri::XML::Builder.new do
       story {
-        labels self.send(func)
+        labels my_strip(self.send(func),',')
       }
     end
     StoryUpdater.put(target_url,:body => update_xml.doc.root.to_xml)
-    StoryUpdater.put('http://requestb.in/z0qi15z0',:body => update_xml.doc.root.to_xml)
   end
 end
 
