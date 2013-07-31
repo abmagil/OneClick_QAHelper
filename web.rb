@@ -25,7 +25,6 @@ post '/' do
         next if xml_doc.at_xpath("//author").text.eql? "QA Helper" 
         #If the story is labeled with dev-test, don't update it on status transitions
         next if full_story['story'].has_key?('labels') and full_story['story']['labels'].include? "dev-test"
-        puts full_story['story']['labels']
         updater = StoryUpdater.new(full_story)
         updater.update
       end
