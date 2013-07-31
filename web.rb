@@ -16,12 +16,12 @@ post '/' do
       project = xml_doc.at_xpath("//project_id").text
       stories = xml_doc.root.xpath("//stories")
       story_ids = stories.xpath(".//id")
-      #It's unclear to me that labels will necessarily come on update, so pull the issue from PT and edit from that.
+      #Labels do not come through on all activities, so we must access raw story data
       story_ids.each do |story|
         grabber = FullStoryGrabber.new(project,story)
         grabber.get_story
         full_story = grabber.full_story
-        next if full_story['activity']['author'].eql? "QA Helper" #Adding a comment will spawn another activity note.  Catch and move on if this is the case.
+        next if xml_doc.at_xpath("//author").text.eql? "QA Helper" #Adding a comment will spawn another activity note.  Catch and move on if this is the case.
         updater = StoryUpdater.new(full_story)
         updater.update
       end
