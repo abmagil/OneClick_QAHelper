@@ -5,7 +5,7 @@ require_relative 'FullStoryGrabber'
 require_relative 'StoryUpdater'
 
 get '/' do
-  "Why are you GETting this page?  Should be PUT to."
+  "Cambridge Systematics OneClick Project Helper App v1.2"
 end
 
 post '/' do
