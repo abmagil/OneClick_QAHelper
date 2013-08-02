@@ -5,7 +5,7 @@ require_relative 'FullStoryGrabber'
 require_relative 'StoryUpdater'
 
 get '/' do
-  "Cambridge Systematics OneClick Project Helper App v1.2"
+  "<h1>Cambridge Systematics OneClick Project</h1> <p>Helper App <strong>v1.2</strong></p>"
 end
 
 post '/' do
