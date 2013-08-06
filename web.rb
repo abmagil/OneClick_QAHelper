@@ -1,11 +1,12 @@
 require 'sinatra'
 require 'nokogiri'
 require 'httparty'
+require 'haml'
 require_relative 'FullStoryGrabber'
 require_relative 'StoryUpdater'
 
 get '/' do
-  "Why are you GETting this page?  Should be PUT to."
+  haml :index
 end
 
 post '/' do
