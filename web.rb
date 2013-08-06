@@ -1,11 +1,12 @@
 require 'sinatra'
 require 'nokogiri'
 require 'httparty'
+require 'haml'
 require_relative 'FullStoryGrabber'
 require_relative 'StoryUpdater'
 
 get '/' do
-  "<h1>Cambridge Systematics OneClick Project</h1> <p>Helper App <strong>v1.2</strong></p>"
+  haml :index
 end
 
 post '/' do
