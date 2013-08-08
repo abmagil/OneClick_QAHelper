@@ -10,10 +10,10 @@ class StoryUpdater
   
   #Any triggers that need to fire based on ticket creation
   def update_on_create
-    case @full_story['story_type']
-    when "chore"
-      set_labels(:add_dev_test)
-    end
+    case @full_story['story']['story_type']
+      when "chore"
+        set_labels(:add_dev_test)
+      end
   end
   
   #Any triggers that need to fire based on ticket updates
@@ -28,19 +28,19 @@ class StoryUpdater
   
   def set_labels(func)
     labels = get_labels
-    self.send(func)
-    update_story({'labels'=>labels})
+    self.send(func, labels)
+    update_story({'labels'=>my_strip(labels,',')})
   end
   
-  def add_dev_test
-    labels.prepend("dev-test")
+  def add_dev_test labels
+    labels.prepend("dev-test,")
   end
   
-  def add_pending
+  def add_pending labels
     labels.prepend("qa-pending,")
   end
 
-  def remove_qa
+  def remove_qa labels
     labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa,?/,',')
   end
   
@@ -51,21 +51,27 @@ class StoryUpdater
   #Generic function to ingest updates and push them to PT
   def update_story(h)
     target_url = BASEURL.gsub('PROJECT_ID',@full_story['story']['project_id'].to_s).gsub('STORY_ID',@full_story['story']['id'].to_s)
-    update_xml = Nokogiri::XML::Builder.new do
-      story {
-        to_nodes(h)
-        test "test"
-      }
-    end
-    StoryUpdater.put(target_url,:body => update_xml.doc.root.to_xml)
+    story_wrapper = {"story"=>h} #Need to wrap in a story tag for PT
+    update_xml = story_wrapper.to_xml
+    StoryUpdater.put(target_url,:body => update_xml)
   end
-end
-
-def to_nodes(h)
-  h.each {|key, value| puts "#{key} #{mystrip(value,',')}"}
+  
+  def to_s
+    "\nFull Story: #{@full_story}\n"
+  end
 end
 
 def my_strip(string, chars)
   chars = Regexp.escape(chars)
   string.gsub(/\A[#{chars}]+|[#{chars}]+\Z/, "")
+end
+
+#Straightforward class addition to replace nokogiri in here.
+class Hash
+  def to_xml
+    map do |k, v|
+      text = Hash === v ? v.to_xml : v
+      "<%s>%s</%s>" % [k, text, k]
+    end.join
+  end
 end
