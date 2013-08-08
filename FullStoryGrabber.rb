@@ -17,4 +17,8 @@ class FullStoryGrabber
   def get_story
     @full_story = FullStoryGrabber.get(get_url).parsed_response
   end
+  
+  def to_s
+    "\nProject: #{project}\nStory: #{story}\nFull Story #{get_story}"
+  end
 end
