@@ -2,6 +2,7 @@ class StoryUpdater
   include HTTParty
   
   BASEURL = 'http://www.pivotaltracker.com/services/v3/projects/PROJECT_ID/stories/STORY_ID'
+  BASEURL = 'http://requestb.in/qjuaoyqj' #REMOVE
   def initialize(story)
     @full_story = story
     StoryUpdater.headers({'X-TrackerToken' => ENV['APIKEY'].to_s,
@@ -19,11 +20,11 @@ class StoryUpdater
   #Any triggers that need to fire based on ticket updates
   def update_on_update
     case @full_story['story']['current_state']
-        when "accepted"
-          set_labels(:add_pending)
-        when "rejected"
-          set_labels(:remove_qa)
-        end
+      when "accepted"
+        set_labels(:add_pending)
+      when "rejected"
+        set_labels(:remove_qa)
+      end
   end
   
   def set_labels(func)
@@ -37,7 +38,7 @@ class StoryUpdater
   end
   
   def add_pending labels
-    labels.prepend("qa-pending,")
+    labels.prepend("qa-pending,") unless get_labels.include? "qa"
   end
 
   def remove_qa labels
