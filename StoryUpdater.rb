@@ -41,7 +41,7 @@ class StoryUpdater
   end
 
   def remove_qa labels
-    labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa,?/,',')
+    labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa-done,?/,',').gsub(/,?qa,?/,',')
   end
   
   def get_labels
