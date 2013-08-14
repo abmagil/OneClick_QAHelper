@@ -26,6 +26,7 @@ class StoryUpdater
       end
   end
   
+  #TODO Make this smarter so that it doesn't call update_story unless labels actually changed
   def set_labels(func)
     update_story({'labels'=>my_strip(self.send(func, get_labels),',')})
   end
