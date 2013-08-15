@@ -41,7 +41,9 @@ class StoryUpdater
 
   #TODO Change so you just cut all labels from "qa" to the comma/EOL
   def remove_qa labels
-    labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa-done,?/,',').gsub(/,?qa,?/,',')
+    label_ary = labels.split(',')
+    label_ary.delete_if {|label| label.eql? "qa" or label.eql? "qa-pending"}
+    label_ary.join(",")
   end
   
   def get_labels
