@@ -6,6 +6,7 @@ class StoryUpdater
     @full_story = story
     StoryUpdater.headers({'X-TrackerToken' => ENV['APIKEY'].to_s,
                              'Content-type' => 'application/xml'})
+    puts "\nBASEURL: " << BASEURL
   end
   
   #Any triggers that need to fire based on ticket creation
