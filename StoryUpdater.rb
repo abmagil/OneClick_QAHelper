@@ -6,7 +6,6 @@ class StoryUpdater
     @full_story = story
     StoryUpdater.headers({'X-TrackerToken' => ENV['APIKEY'].to_s,
                              'Content-type' => 'application/xml'})
-    puts "\nBASEURL: " << BASEURL
   end
   
   #Any triggers that need to fire based on ticket creation
@@ -55,6 +54,7 @@ class StoryUpdater
     story_wrapper = {"story"=>h} #Need to wrap in a story tag for PT
     update_xml = story_wrapper.to_xml
     StoryUpdater.put(target_url,:body => update_xml)
+    puts "\nBASEURL: " << BASEURL
   end
   
   def to_s
