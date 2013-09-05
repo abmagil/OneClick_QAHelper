@@ -34,6 +34,7 @@ post '/' do
         full_story = FullStoryGrabber.new(project,story).full_story
         #If the story is labeled with dev-test, don't update it on status transitions
         next if full_story['story'].has_key?('labels') and full_story['story']['labels'].include? "dev-test"
+        ##release-type stories should not be handled
         next if full_story['story']['story_type'].eql? 'release'
         updater = StoryUpdater.new(full_story)
         updater.update_on_update
