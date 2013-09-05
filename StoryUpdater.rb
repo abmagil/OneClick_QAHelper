@@ -1,7 +1,7 @@
 class StoryUpdater
   include HTTParty
   
-  BASEURL = 'http://www.pivotaltracker.com/services/v3/projects/PROJECT_ID/stories/STORY_ID'
+  BASEURL = ENV['BASEURL']
   def initialize(story)
     @full_story = story
     StoryUpdater.headers({'X-TrackerToken' => ENV['APIKEY'].to_s,
@@ -27,9 +27,7 @@ class StoryUpdater
   end
   
   def set_labels(func)
-    labels = get_labels
-    self.send(func, labels)
-    update_story({'labels'=>my_strip(labels,',')})
+    update_story({'labels'=>my_strip(self.send(func, get_labels),',')})
   end
   
   def add_dev_test labels
