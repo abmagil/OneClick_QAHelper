@@ -38,8 +38,11 @@ class StoryUpdater
     labels.prepend("qa-pending,") unless get_labels.include? "qa"
   end
 
+  #TODO Change so you just cut all labels from "qa" to the comma/EOL
   def remove_qa labels
-    labels = labels.gsub(/,?qa-pending,?/,',').gsub(/,?qa-done,?/,',').gsub(/,?qa,?/,',')
+    label_ary = labels.split(',')
+    label_ary.delete_if {|label| label.eql? "qa" or label.eql? "qa-pending"}
+    label_ary.join(",")
   end
   
   def get_labels
@@ -52,6 +55,7 @@ class StoryUpdater
     story_wrapper = {"story"=>h} #Need to wrap in a story tag for PT
     update_xml = story_wrapper.to_xml
     StoryUpdater.put(target_url,:body => update_xml)
+    puts "\nBASEURL: " << target_url
   end
   
   def to_s

@@ -12,13 +12,10 @@ class FullStoryGrabber
   end
   
   def get_url
+    ##TODO Update this to use the heroku config variable
     target_url = "http://www.pivotaltracker.com/services/v3/projects/#{@project}/stories/#{@story.text}"
   end
-  
-  def get_story
-    
-  end
-  
+
   def to_s
     "\nProject: #{project}\nStory: #{story}\nFull Story #{get_story}"
   end
