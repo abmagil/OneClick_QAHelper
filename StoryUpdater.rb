@@ -28,9 +28,7 @@ class StoryUpdater
   end
   
   def set_labels(func)
-    labels = get_labels
-    self.send(func, labels)
-    update_story({'labels'=>my_strip(labels,',')})
+    update_story({'labels'=>my_strip(self.send(func, get_labels),',')})
   end
   
   def add_dev_test labels
