@@ -54,7 +54,8 @@ class StoryUpdater
     story_wrapper = {"story"=>h} #Need to wrap in a story tag for PT
     update_xml = story_wrapper.to_xml
     StoryUpdater.put(target_url,:body => update_xml)
-    puts "\nBASEURL: " << BASEURL
+    puts "\nTarget URL: " << target_url
+    puts @full_story.to_s
   end
   
   def to_s
