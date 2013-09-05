@@ -2,7 +2,6 @@ class StoryUpdater
   include HTTParty
   
   BASEURL = 'http://www.pivotaltracker.com/services/v3/projects/PROJECT_ID/stories/STORY_ID'
-  BASEURL = 'http://requestb.in/ovhasbov' ##TODO REMOVE AFTER TESTING
   def initialize(story)
     @full_story = story
     StoryUpdater.headers({'X-TrackerToken' => ENV['APIKEY'].to_s,
@@ -49,13 +48,10 @@ class StoryUpdater
   
   #Generic function to ingest updates and push them to PT
   def update_story(h)
-    puts "Hello logs!"
     target_url = BASEURL.gsub('PROJECT_ID',@full_story['story']['project_id'].to_s).gsub('STORY_ID',@full_story['story']['id'].to_s)
     story_wrapper = {"story"=>h} #Need to wrap in a story tag for PT
     update_xml = story_wrapper.to_xml
     StoryUpdater.put(target_url,:body => update_xml)
-    puts "\nTarget URL: " << target_url
-    puts @full_story.to_s
   end
   
   def to_s
