@@ -1,7 +1,7 @@
 class StoryUpdater
   include HTTParty
   
-  BASEURL = 'http://www.pivotaltracker.com/services/v3/projects/PROJECT_ID/stories/STORY_ID'
+  BASEURL = ENV['BASEURL']
   def initialize(story)
     @full_story = story
     StoryUpdater.headers({'X-TrackerToken' => ENV['APIKEY'].to_s,
