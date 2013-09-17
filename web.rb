@@ -2,31 +2,11 @@ require 'sinatra'
 require 'nokogiri'
 require 'httparty'
 require 'haml'
-require 'git'
 require_relative 'FullStoryGrabber'
 require_relative 'StoryUpdater'
 
-helpers do
-  def get_git_version
-    g = Git.init
-    return g.tags.last.name
-  end
-  
-  def get_git_branch
-    s = "<br />"
-    g = Git.init
-    a = g.branches
-    a.each { |branch|
-      b = branch.to_s
-      b = "<b>" << b << "</b>" if branch.current
-      s << b << "<br />"
-    }
-    return s
-  end
-end
-
 get '/' do
-  erb :index
+  haml :index
 end
 
 post '/' do
