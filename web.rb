@@ -10,9 +10,7 @@ get '/' do
 end
 
 post '/' do
-	puts "HELLO" ##TREMOVE
 	json_response = JSON.parse(request.body.read)
-	puts json_response ##REMOVE
 	#Adding a comment will spawn another activity note.  Catch and move on if this is the case.
 	if json_response["performed_by"]["id"].eql? "1077736"	# 	This is the QA Helper user's ID number
 		return
