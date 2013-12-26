@@ -11,6 +11,7 @@ end
 
 post '/' do
 	json_response = JSON.parse(request.body.read)
+	puts json_response
 	#Adding a comment will spawn another activity note.  Catch and move on if this is the case.
 	if json_response["performed_by"]["id"].eql? "1077736"	# 	This is the QA Helper user's ID number
 		return
@@ -21,7 +22,7 @@ post '/' do
 		story_id = story["id"]
 		#Labels do not come through on all activities, so we must access raw story data
 		case story["change_type"]
-		when "story_create"
+		when "create"
 			full_story = FullStoryGrabber.new(project,story_id).full_story
 			updater = StoryUpdater.new(full_story)
 			updater.update_on_create
