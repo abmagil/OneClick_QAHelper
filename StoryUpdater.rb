@@ -38,8 +38,6 @@ class StoryUpdater
   #Generic function to ingest updates and push them to PT
   def update_story(h)
     target_url = BASEURL.gsub('PROJECT_ID',@full_story['project_id'].to_s).gsub('STORY_ID',@full_story['id'].to_s)
-    # story_wrapper = {"story"=>h} #Need to wrap in a story tag for PT
-    # update_xml = story_wrapper.to_xml
     StoryUpdater.put(target_url,:body => h)
   end
   
