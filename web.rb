@@ -31,5 +31,4 @@ post '/' do
 			updater.update_on_update
 		end
 	end
-	puts "post"
 end
