@@ -14,19 +14,19 @@ class StoryUpdater
   def update_on_create
     case @full_story['story_type']
       when "chore"
-        set_labels(:add_dev_test)
+        set_labels(:add_dev_test) unless get_labels.include? "dev-test"
       end
   end
   
   #Any triggers that need to fire based on ticket updates
   def update_on_update
-    if (@full_story['labels'].include? "name" and @full_story['labels']['name'].eql? "dev-test") 
+    if get_labels.include? "dev-test"
       return
     end
     if ['release', 'chore'].include? @full_story['story_type']
+      puts "no action on release or chore"
       return
     end
-
     case @full_story['current_state']
       when "accepted"
         set_labels(:add_pending)
@@ -38,17 +38,25 @@ class StoryUpdater
   #Generic function to ingest updates and push them to PT
   def update_story(h)
     target_url = BASEURL.gsub('PROJECT_ID',@full_story['project_id'].to_s).gsub('STORY_ID',@full_story['id'].to_s)
-    StoryUpdater.put(target_url,:body => h)
+    # target_url = "http://requestb.in/187efvm1" ##REMOVE
+    StoryUpdater.put(target_url,:body => h.to_json)
   end
   
 #####Manipulation Functions#######
   
   def set_labels(func)
-    update_story({'labels'=>self.send(func, get_labels)})
+    update_ary = []
+    new_label_list = self.send(func, get_labels)
+    puts "new label list: #{new_label_list}"
+    new_label_list.each do |label|
+      update_ary << {name: label}
+    end
+    update_story({'labels'=> update_ary})
+    puts "Updating #{@full_story["id"]} with #{func}"
   end
   
   def add_dev_test labels
-    labels.prepend("dev-test,")
+    labels << "dev-test"
   end
   
   def add_pending labels
@@ -59,12 +67,11 @@ class StoryUpdater
     labels.delete_if {|label| QA_LABELS.include? label}
   end
 
-##Helper Functions#############
 
+##Helper Functions#############
   
   def get_labels
-    puts @full_story
-    @full_story['labels'] || []
+    @full_story['labels'].map {|x| x["name"]} || []
   end
   
   def to_s

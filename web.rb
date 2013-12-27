@@ -11,7 +11,6 @@ end
 
 post '/' do
 	json_response = JSON.parse(request.body.read)
-	puts json_response
 	#Adding a comment will spawn another activity note.  Catch and move on if this is the case.
 	if json_response["performed_by"]["id"].eql? "1077736"	# 	This is the QA Helper user's ID number
 		return
@@ -32,4 +31,5 @@ post '/' do
 			updater.update_on_update
 		end
 	end
+	puts "finished"
 end
