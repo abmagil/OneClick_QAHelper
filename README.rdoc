@@ -3,5 +3,8 @@ An extraordinarily simple app.
 This app is (originally) intended to help out devs and QA for the Cambridge Systematics OneClick projects.
 Bug Tracking/Project Management is occurring via Pivotal Tracker, where we are relying on labels to communicate between groups.
 
-In order to support this workflow, we will set PT to POST activity to this webapp (hosted on heroku or other solution), which 
-will parse the activity and update stories in PT accordingly, via the PT API.
+In order to support this workflow, we will set PT to POST activity to this webapp (hosted on heroku or other solution), which will parse the activity and update stories in PT accordingly, via the PT API.  The business rules reflected are generally documented and reflect internal documentation for this project at Cambridge Systematics.
+
+Technically, this was my first significant creation in Ruby (using sinatra, not Rails) and was a good way to see the similarities and differences from python (which I was more familiar with).  Very little complexity is involved, but it was a testbed for Ruby, Heroku, nokogiri (before the Pivotal Tracker switched from XML to json) and solidified my understanding of git (having previously worked only with subversion).
+
+This project is an excellent example of the type of tool I enjoy creating (though obviously much more simple).  I have always enjoyed creating the tools that help other people do their jobs better.  A manager once referred to this as "low drag, high speed".
